@@ -1,10 +1,13 @@
 <template>
-  <base-container title="Vuex">
+  <BaseContainer title="Vuex" v-if="isAuth">
     <TheCounter />
     <FavoriteValue />
     <button @click="addOne">Add 10</button>
     <ChangeCounter />
-  </base-container>
+  </BaseContainer>
+  <BaseContainer title="Auth">
+    <UserAuth />
+  </BaseContainer>
 </template>
 
 <script>
@@ -12,6 +15,7 @@ import BaseContainer from './components/BaseContainer.vue';
 import TheCounter from './components/TheCounter.vue';
 import ChangeCounter from './components/ChangeCounter.vue';
 import FavoriteValue from './components/FavoriteValue.vue';
+import UserAuth from './components/UserAuth.vue';
 
 export default {
   components: {
@@ -19,12 +23,18 @@ export default {
     TheCounter,
     ChangeCounter,
     FavoriteValue,
+    UserAuth,
+  },
+  computed: {
+    isAuth() {
+      return this.$store.getters.userIsAuthenticated;
+    }
   },
   methods: {
     addOne() {
       //this.$store.commit('increase', { value: 10 });
-      this.$store.commit({
-        type: 'increase',
+      this.$store.dispatch({
+        type: 'numbers/increase',
         value: 10,
       })
     }
